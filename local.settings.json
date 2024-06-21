@@ -1,0 +1,6 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "SQL_CONNECTION_STRING": "Server=tcp:mytraceau.database.windows.net,1433;Initial Catalog=MyTrace;Persist Security Info=False;User ID=mytrace;Password=John8:32;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=300;"
+  }
+}
