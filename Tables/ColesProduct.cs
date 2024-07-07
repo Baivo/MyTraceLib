@@ -1,7 +1,10 @@
-﻿namespace MyTraceLib.Tables
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyTraceLib.Tables
 {
     public class ColesProduct
     {
+        [Key]
         public string ColesProductId { get; set; } = Guid.NewGuid().ToString();
         public DateTime EntryDate = DateTime.Now;
         public string? Name { get; set; }

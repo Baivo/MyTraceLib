@@ -7,6 +7,7 @@ namespace MyTraceLib.Tables
     public class WoolworthsProduct
     {
         // Basics
+        [Key]
         public string WoolworthsProductId { get; set; } = Guid.NewGuid().ToString();
         public DateTime EntryDate { get; set; } = DateTime.Now;
         public string Barcode { get; set; } = string.Empty;

@@ -1,8 +1,10 @@
 ﻿using MyTraceLib.Services;
+using System.ComponentModel.DataAnnotations;
 namespace MyTraceLib.Tables
 {
     public class Barcodes
     {
+        [Key]
         public string BarcodesId { get; set; }
         public Barcodes()
         {

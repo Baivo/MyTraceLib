@@ -1,32 +1,42 @@
 ﻿using MyTraceLib.Tables;
 using Newtonsoft.Json;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace MyTraceLib.Services
 {
-    public class ColesApiService
+    public class CostcoApiService
     {
-        private static string _apiKey { get; set; } = "ca2Fg3art28TTfVRgCsm4iMaZF16WgaNkNOKO4yDc6uGc";
+        private static string _apiKey { get; set; } = "caBZhTkDXtH0cKNQs4zqF7kFJeuy36nFrcL8OsEfpxt98";
         private static int maxConcurrency = 100;
-        private static async Task<ColesProductResponsePage?> GetProductPageAsync(int offset = 0)
+        public CostcoApiService(string apiKey = "caBZhTkDXtH0cKNQs4zqF7kFJeuy36nFrcL8OsEfpxt98")
+        {
+            _apiKey = apiKey;
+        }
+
+        private static async Task<CostcoProductResponsePage?> GetProductPageAsync(int offset = 0)
         {
             using var client = new HttpClient();
             string requestUri = $"https://api.bazaarvoice.com/data/products.json?passkey={_apiKey}&locale=en_AU&allowMissing=true&apiVersion=5.4&limit=100&offset={offset}";
             var response = await client.GetAsync(requestUri);
             response.EnsureSuccessStatusCode();
             string responseBody = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<ColesProductResponsePage>(responseBody);
+            //PrintService.PrintInfo(responseBody);
+            return JsonConvert.DeserializeObject<CostcoProductResponsePage>(responseBody);
         }
-        public static async Task<List<ColesProduct>> GetAllColesProductsAsync(int initialOffset = 0)
+
+        public static async Task<List<CostcoProduct>> GetAllCostcoProductsAsync(int initialOffset = 0)
         {
             var initialResponse = await GetProductPageAsync(initialOffset);
-            if (initialResponse == null || initialResponse.Results == null || initialResponse.Results.Length == 0)
+            if (initialResponse == null || initialResponse.Results == null)
                 throw new InvalidOperationException("Failed to fetch initial data from API.");
 
             int totalResults = initialResponse.TotalResults;
             PrintService.PrintInfo($"Starting product data fetch: {totalResults} total items to retrieve.");
 
-            List<ColesProductResult> allResults = new List<ColesProductResult>(initialResponse.Results);
-            List<Task<ColesProductResponsePage?>> tasks = new List<Task<ColesProductResponsePage?>>();
+            List<CostcoProductResult> allResults = new List<CostcoProductResult>(initialResponse.Results);
+            List<Task<CostcoProductResponsePage?>> tasks = new List<Task<CostcoProductResponsePage?>>();
 
             for (int offset = initialResponse.Limit; offset < totalResults; offset += initialResponse.Limit * maxConcurrency)
             {
@@ -47,40 +57,40 @@ namespace MyTraceLib.Services
                 }
                 PrintService.PrintInfo($"Fetched {allResults.Count} of {totalResults} products");
             }
-            List<ColesProduct> products = new List<ColesProduct>();
+            List<CostcoProduct> products = new List<CostcoProduct>();
             foreach (var productResult in allResults)
             {
-                string brandName = productResult.Brand?.Name ?? "Coles";
-
-                var entity = new ColesProduct
+                var entity = new CostcoProduct
                 {
-                    ColesProductId = productResult.Id ?? Guid.NewGuid().ToString(),
+                    CostcoProductId = productResult.Id ?? Guid.NewGuid().ToString(),
                     Name = productResult.Name,
                     Active = productResult.Active,
                     StockCode = productResult.Id,
-                    Brand = brandName,
+                    Brand = productResult.Brand?.Name,
                     BrandExternalId = productResult.BrandExternalId,
-                    EANs = productResult.EANs,
-                    ManufacturerPartNumbers = productResult.ManufacturerPartNumbers,
-                    UPCs = productResult.UPCs,
+                    EANs = productResult.EANs?.ToArray(),
+                    ManufacturerPartNumbers = productResult.ManufacturerPartNumbers?.ToArray(),
+                    UPCs = productResult.UPCs?.ToArray(),
                     ImageUrl = productResult.ImageUrl,
                     ProductPageUrl = productResult.ProductPageUrl
                 };
+
                 products.Add(entity);
             }
             return products;
         }
-        private static async Task<ColesBrandResponsePage?> GetBrandPageAsync(int offset = 0)
+
+        private static async Task<CostcoBrandResponsePage?> GetBrandPageAsync(int offset = 0)
         {
             using var client = new HttpClient();
             string requestUri = $"https://api.bazaarvoice.com/data/brands.json?passkey={_apiKey}&locale=en_AU&allowMissing=true&apiVersion=5.4&limit=100&offset={offset}";
             var response = await client.GetAsync(requestUri);
             response.EnsureSuccessStatusCode();
             string responseBody = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<ColesBrandResponsePage>(responseBody);
+            return JsonConvert.DeserializeObject<CostcoBrandResponsePage>(responseBody);
         }
 
-        public static async Task<List<ColesBrand>> GetAllColesBrandsAsync()
+        public static async Task<List<CostcoBrand>> GetAllCostcoBrandsAsync()
         {
             int initialOffset = 0;
             var initialResponse = await GetBrandPageAsync(initialOffset);
@@ -90,8 +100,8 @@ namespace MyTraceLib.Services
             int totalResults = initialResponse.TotalResults;
             PrintService.PrintInfo($"Starting brand data fetch: {totalResults} total items to retrieve.");
 
-            List<ColesBrandResult> allResults = new List<ColesBrandResult>(initialResponse.Results);
-            List<Task<ColesBrandResponsePage?>> tasks = new List<Task<ColesBrandResponsePage?>>();
+            List<CostcoBrandResult> allResults = new List<CostcoBrandResult>(initialResponse.Results);
+            List<Task<CostcoBrandResponsePage?>> tasks = new List<Task<CostcoBrandResponsePage?>>();
 
             for (int offset = initialResponse.Limit; offset < totalResults; offset += initialResponse.Limit * maxConcurrency)
             {
@@ -112,12 +122,12 @@ namespace MyTraceLib.Services
                     }
                 }
             }
-            List<ColesBrand> brands = new List<ColesBrand>();
+            List<CostcoBrand> brands = new List<CostcoBrand>();
             foreach (var brandResult in allResults)
             {
-                var entity = new ColesBrand
+                var entity = new CostcoBrand
                 {
-                    ColesBrandId = brandResult.Id ?? Guid.NewGuid().ToString(),
+                    CostcoBrandId = brandResult.Id ?? Guid.NewGuid().ToString(),
                     Name = brandResult.Name,
                     InternalId = brandResult.Id ?? "NoID"
                 };

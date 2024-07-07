@@ -39,7 +39,7 @@ namespace MyTraceLib.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error fetching product {stockCode}: {ex.Message}");
+                PrintService.PrintFailure($"Error fetching product {stockCode}: {ex.Message}");
                 return null;
             }
         }

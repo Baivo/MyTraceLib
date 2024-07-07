@@ -10,6 +10,7 @@ namespace MyTraceTrawler.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
             migrationBuilder.AddColumn<DateTime>(
                 name: "EntryDate",
                 table: "Products",
