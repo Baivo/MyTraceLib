@@ -68,9 +68,7 @@ namespace MyTraceLib.Services
                     StockCode = productResult.Id,
                     Brand = productResult.Brand?.Name,
                     BrandExternalId = productResult.BrandExternalId,
-                    EANs = productResult.EANs?.ToArray(),
                     ManufacturerPartNumbers = productResult.ManufacturerPartNumbers?.ToArray(),
-                    UPCs = productResult.UPCs?.ToArray(),
                     ImageUrl = productResult.ImageUrl,
                     ProductPageUrl = productResult.ProductPageUrl
                 };

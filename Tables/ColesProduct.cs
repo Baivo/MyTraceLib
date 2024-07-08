@@ -17,6 +17,7 @@ namespace MyTraceLib.Tables
         public string[]? UPCs { get; set; }
         public string? ImageUrl { get; set; }
         public string? ProductPageUrl { get; set; }
+        public string? Barcode { get; set; }
     }
     public class ColesProductResponsePage
     {

@@ -3,21 +3,21 @@ using MyTraceLib.Tables;
 
 namespace MyTraceLib.Services
 {
-    public static class ColesSqlService
+    public static class CostcoSqlService
     {
 
-        public static ColesProduct? GetProductByStockCode(string stockCode)
+        public static CostcoProduct? GetProductByStockCode(string stockCode)
         {
             using (var db = new DatabaseContext())
-                return db.ColesProducts.Where(p => p.StockCode == stockCode).FirstOrDefault();
+                return db.CostcoProducts.Where(p => p.StockCode == stockCode).FirstOrDefault();
         }
-        public static async Task SaveProductsAsync(List<ColesProduct> colesProducts)
+        public static async Task SaveProductsAsync(List<CostcoProduct> CostcoProducts)
         {
             try
             {
                 using (var db = new DatabaseContext())
                 {
-                    db.ColesProducts.AddRange(colesProducts);
+                    db.CostcoProducts.AddRange(CostcoProducts);
                     await db.SaveChangesAsync();
                 }
             }
@@ -30,14 +30,13 @@ namespace MyTraceLib.Services
                 PrintService.PrintError(ex);
             }
         }
-
-        public static async Task SaveBrandsAsync(List<ColesBrand> colesBrands)
+        public static async Task SaveBrandsAsync(List<CostcoBrand> CostcoBrands)
         {
             try
             {
                 using (var db = new DatabaseContext())
                 {
-                    db.ColesBrands.AddRange(colesBrands);
+                    db.CostcoBrands.AddRange(CostcoBrands);
                     await db.SaveChangesAsync();
                 }
             }

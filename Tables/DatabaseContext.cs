@@ -9,6 +9,8 @@ namespace MyTraceLib.Tables
         public DbSet<WoolworthsProduct> Products { get; set; }
         public DbSet<ColesProduct> ColesProducts { get; set; }
         public DbSet<ColesBrand> ColesBrands { get; set; }
+        public DbSet<CostcoProduct> CostcoProducts { get; set; }
+        public DbSet<CostcoBrand> CostcoBrands { get; set; }
         public DbSet<IngredientBreakdown> IngredientBreakdowns { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
