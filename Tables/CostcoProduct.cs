@@ -12,11 +12,9 @@ namespace MyTraceLib.Tables
         public string? Name { get; set; }
         public bool Active { get; set; }
         public string? StockCode { get; set; }
+        public string? Barcode { get; set; }
         public string? Brand { get; set; }
         public string? BrandExternalId { get; set; }
-        public string[]? EANs { get; set; }
-        public string[]? ManufacturerPartNumbers { get; set; }
-        public string[]? UPCs { get; set; }
         public string? ImageUrl { get; set; }
         public string? ProductPageUrl { get; set; }
     }
