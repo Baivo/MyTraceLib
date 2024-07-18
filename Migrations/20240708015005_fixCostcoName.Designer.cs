@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyTraceLib.Tables;
 
@@ -11,9 +12,11 @@ using MyTraceLib.Tables;
 namespace MyTraceTrawler.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240708015005_fixCostcoName")]
+    partial class fixCostcoName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,9 +60,6 @@ namespace MyTraceTrawler.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Barcode")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Brand")
                         .HasColumnType("nvarchar(max)");
@@ -119,13 +119,13 @@ namespace MyTraceTrawler.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Barcode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Brand")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BrandExternalId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EANs")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EntryDate")
@@ -144,6 +144,9 @@ namespace MyTraceTrawler.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StockCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UPCs")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CostcoProductId");

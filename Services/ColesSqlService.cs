@@ -30,6 +30,7 @@ namespace MyTraceLib.Services
                 PrintService.PrintError(ex);
             }
         }
+
         public static async Task SaveBrandsAsync(List<ColesBrand> colesBrands)
         {
             try
