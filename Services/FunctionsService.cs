@@ -5,7 +5,7 @@ namespace MyTraceLib.Services
 {
     public static class FunctionsService
     {
-        private static readonly string FunctionsCode = "jX7ieFKp6eNhVUHzQEUqq4rt7XRczZ-J3etU7jmbEGHVAzFuHhhsYQ==";
+        private static readonly string FunctionsCode = Environment.GetEnvironmentVariable("FUNCTIONS_CODE");
         private static readonly string BaseUrl = "https://mytracefunctions.azurewebsites.net/api/";
 
         private static readonly Dictionary<string, string> FunctionUrls = new Dictionary<string, string>

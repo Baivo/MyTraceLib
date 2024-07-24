@@ -16,7 +16,7 @@ namespace MyTraceLib.Services
     {
         private static readonly OpenAIService sdk = new OpenAIService(new OpenAiOptions()
         {
-            ApiKey = "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"
+            ApiKey = Environment.GetEnvironmentVariable("AI_API_KEY")
         });
         public static async Task<IngredientBreakdown> GetIngredientBreakdownAsync(string ingredient)
         {

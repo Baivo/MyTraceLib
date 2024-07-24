@@ -14,10 +14,8 @@ namespace MyTraceLib.Tables
         public DbSet<IngredientBreakdown> IngredientBreakdowns { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
-            string connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING") ?? "Server=tcp:mytraceau.database.windows.net,1433;Initial Catalog=MyTrace;Persist Security Info=False;User ID=mytrace;Password=John8:32;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=300;";
             optionsBuilder.UseSqlServer(
-                connectionString,
+                Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING"),
                 sqlServerOptionsAction: sqlOptions =>
                 {
                     sqlOptions.EnableRetryOnFailure(
